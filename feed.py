@@ -38,15 +38,8 @@ with open('tokens.json') as tokens_file:
         assert application_request.ok
         application = application_request.json()
 
-        subscription_dgfip_request = requests.post('{}/applications/{}/subscriptions'.format(base_url, application['id']), params={'plan': dgfip_plan_id}, auth=(user, password))
+        subscription_dgfip_request = requests.post('{}/apis/{}/subscriptions'.format(base_url, dgfip_api_id), params={'plan': dgfip_plan_id, 'application': application['id']}, auth=(user, password))
         assert subscription_dgfip_request.ok
-        subscription_dgfip = subscription_dgfip_request.json()
 
-        subscription_caf_request = requests.post('{}/applications/{}/subscriptions'.format(base_url, application['id']), params={'plan': caf_plan_id}, auth=(user, password))
+        subscription_caf_request = requests.post('{}/apis/{}/subscriptions'.format(base_url, caf_api_id), params={'plan': caf_plan_id, 'application': application['id']}, auth=(user, password))
         assert subscription_caf_request.ok
-        subscription_caf = subscription_caf_request.json()
-
-        accept_dgfip_subscription_request = requests.post('{}/apis/{}/subscriptions/{}/_process'.format(base_url, dgfip_api_id, subscription_dgfip['id']), json={'accepted': True}, auth=(user, password))
-        assert accept_dgfip_subscription_request.ok
-        accept_caf_subscription_request = requests.post('{}/apis/{}/subscriptions/{}/_process'.format(base_url, caf_api_id, subscription_caf['id']), json={'accepted': True}, auth=(user, password))
-        assert accept_caf_subscription_request.ok
