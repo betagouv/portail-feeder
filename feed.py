@@ -71,9 +71,15 @@ with open('tokens.json') as tokens_file:
     }, auth=(user, password))
     assert update_scopes_dictionary_request.ok
 
+    deploy_scopes_dictionary_request = requests.post('{}/configuration/dictionaries/{}/_deploy'.format(base_url, scopes_dictionary_id), auth=(user, password))
+    assert deploy_scopes_dictionary_request.ok
+
     update_application_names_dictionary_request = requests.put('{}/configuration/dictionaries/{}'.format(base_url, application_names_dictionary_id), json={
         'name': 'Application Names',
         'type': 'MANUAL',
         'properties': application_names_dictionary
     }, auth=(user, password))
     assert update_application_names_dictionary_request.ok
+
+    deploy_application_names_dictionary_request = requests.post('{}/configuration/dictionaries/{}/_deploy'.format(base_url, application_names_dictionary_id), auth=(user, password))
+    assert deploy_application_names_dictionary_request.ok
