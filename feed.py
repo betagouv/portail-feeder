@@ -7,8 +7,10 @@ user = os.environ.get('PORTAL_USER')
 password = os.environ.get('PORTAL_PASSWORD')
 dgfip_api_id = os.environ.get('DGFIP_API_ID')
 caf_api_id = os.environ.get('CAF_API_ID')
+introspect_api_id = os.environ.get('INTROSPECT_API_ID')
 dgfip_plan_id = os.environ.get('DGFIP_PLAN_ID')
 caf_plan_id = os.environ.get('CAF_PLAN_ID')
+introspect_plan_id = os.environ.get('INTROSPECT_PLAN_ID')
 scopes_dictionary_id = os.environ.get('SCOPES_DICTIONARY_ID')
 application_names_dictionary_id = os.environ.get('APPLICATION_NAMES_DICTIONARY_ID')
 
@@ -17,8 +19,10 @@ assert user is not None
 assert password is not None
 assert dgfip_api_id is not None
 assert caf_api_id is not None
+assert introspect_api_id is not None
 assert dgfip_plan_id is not None
 assert caf_plan_id is not None
+assert introspect_plan_id is not None
 assert scopes_dictionary_id is not None
 assert application_names_dictionary_id is not None
 
@@ -49,6 +53,9 @@ with open('tokens.json') as tokens_file:
 
         subscription_caf_request = requests.post('{}/apis/{}/subscriptions'.format(base_url, caf_api_id), params={'plan': caf_plan_id, 'application': application['id']}, auth=(user, password))
         assert subscription_caf_request.ok
+
+        subscription_introspect_request = requests.post('{}/apis/{}/subscriptions'.format(base_url, introspect_api_id), params={'plan': introspect_plan_id, 'application': application['id']}, auth=(user, password))
+        assert subscription_dgfip_request.ok
 
     # Update the scopes and application names dictionaries
     applications_request = requests.get('{}/applications'.format(base_url), auth=(user, password))
